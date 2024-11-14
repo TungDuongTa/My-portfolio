@@ -51,7 +51,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div id="page-wrapper" className="relative overflow-hidden">
+    <div id="page-wrapper" className="relative ">
       <div
         className="bg-slate-900 leading-relaxed text-slate-400 antialiased selection:bg-sky-300 selection:text-sky-900 relative "
         id="main-content"
