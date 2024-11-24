@@ -39,7 +39,7 @@ export const projectData = [
     skills: ["TypeScript", "Next.js", "GSAP", "Framer Motion"],
   },
   {
-    image: "/img-1.png",
+    image: "/img-2.png",
     title: "Ducky",
     link: "https://ja.digitaltomcat.com.au/",
     description:
