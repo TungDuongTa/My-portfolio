@@ -26,7 +26,7 @@ export const projectData = [
     title: "Afk Journey",
     link: "https://afk-journey-website.vercel.app/",
     description:
-      "My take on Afk Journey website, a game that I love. This project is Front-end only with animation forcused.",
+      "My take on Afk Journey website, a game that I love. This project is Front-end only with animation focused.",
     skills: ["TypeScript", "React", "GSAP", "CSS"],
   },
   {
