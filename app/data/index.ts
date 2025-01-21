@@ -8,15 +8,6 @@ export const experienceData = [
       "Collaborated with cross-functional teams to design, develop, and style interactive web applications for Sample Assist. Contributed to the front-end and back-end development, leveraging TypeScript and Next.js for dynamic user interfaces and Nest.js for building scalable APIs. Actively engaged in using AWS services to enhance application deployment and infrastructure management, ensuring smooth and reliable performance.",
     skills: ["TypeScript", "Next.js", "Nest.js", "Node.js", "AWS"],
   },
-  {
-    position: "Software Engineer, Part-Time",
-    company: "Sample Assist",
-    link: "https://www.sampleassist.com",
-    date: "2024 — Present",
-    description:
-      "Collaborated with cross-functional teams to design, develop, and style interactive web applications for Sample Assist. Contributed to the front-end and back-end development, leveraging TypeScript and Next.js for dynamic user interfaces and Nest.js for building scalable APIs. Actively engaged in using AWS services to enhance application deployment and infrastructure management, ensuring smooth and reliable performance.",
-    skills: ["TypeScript", "Next.js", "Nest.js", "Node.js", "AWS"],
-  },
 
   // Add more experiences here
 ];
@@ -31,12 +22,12 @@ export const projectData = [
     skills: ["TypeScript", "Next.js", "Nest.js", "Node.js", "AWS"],
   },
   {
-    image: "/img-1.png",
-    title: "Apple Ani",
-    link: "https://ja.digitaltomcat.com.au/",
+    image: "/pc_bg_01.jpg",
+    title: "Afk Journey",
+    link: "https://afk-journey-website.vercel.app/",
     description:
-      "AppleAni is created with the aim to recreate all the amazing page transitions, animation like Apple website and many other ecommerce",
-    skills: ["TypeScript", "Next.js", "GSAP", "Framer Motion"],
+      "My take on Afk Journey website, a game that I love. This project is Front-end only with animation forcused.",
+    skills: ["TypeScript", "React", "GSAP", "quality Css"],
   },
   {
     image: "/img-2.png",

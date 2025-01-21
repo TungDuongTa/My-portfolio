@@ -75,7 +75,7 @@ export default function Home() {
                   <Link href="/">Tung Duong Ta</Link>
                 </h1>
                 <h2 className="mt-3 text-lg font-medium tracking-tight text-slate-200 sm:text-xl">
-                  Junior Full-stack Software Engineer
+                  Junior Full-stack Software Engineer(Frontend focus)
                 </h2>
                 <p className="mt-4 max-w-xs leading-normal">
                   I build pixel-perfect, engaging, and accessible digital
@@ -228,13 +228,14 @@ export default function Home() {
                 </div>
                 <div>
                   <p className="mt-4">
-                    I’m a web and game developer with a real passion for
-                    crafting engaging, user-friendly experiences. My focus is on
-                    frontend development, where I get to bring ideas to life
-                    with responsive designs and interactive elements. Whether
-                    building intuitive interfaces for web projects or creating
-                    immersive game worlds, I love blending creativity and tech
-                    to make things that people enjoy using.
+                    I’m a web dev with a real passion for crafting engaging,
+                    user-friendly experiences. My focus is on frontend
+                    development, where I get to bring ideas to life with
+                    responsive designs and interactive elements. I am expanding
+                    my knowledge to full-stack development. <br />
+                    Originally, i was a game developer but fail to make
+                    beautiful pieces, so now I am focusing on web development
+                    where i found myselft enjoying it.
                   </p>
                 </div>
               </section>
