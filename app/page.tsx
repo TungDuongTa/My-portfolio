@@ -75,7 +75,7 @@ export default function Home() {
                   <Link href="/">Tung Duong Ta</Link>
                 </h1>
                 <h2 className="mt-3 text-lg font-medium tracking-tight text-slate-200 sm:text-xl">
-                  Junior Full-stack Software Engineer(Frontend focus)
+                  Junior Software Engineer(Frontend focus)
                 </h2>
                 <p className="mt-4 max-w-xs leading-normal">
                   I build pixel-perfect, engaging, and accessible digital
