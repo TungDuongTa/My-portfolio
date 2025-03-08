@@ -49,7 +49,7 @@ export const projectData = [
   {
     image: "/img-3.png",
     title: "Docs Clone",
-    link: "https://github.com/TungDuongTa/ggdocs-clone",
+    link: "https://ggdocs-clone.vercel.app/",
     description:
       "Docs Clone is a powerful, feature-rich document editor inspired by Google Docs. Built with Tiptap Editor, it offers a seamless writing experience with rich text formatting. Clerk handles authentication, ensuring secure access, while Liveblocks enables real-time collaboration, allowing multiple users to edit together effortlessly. Perfect for teams and individuals looking for a smooth, modern document editing solution.",
     skills: [

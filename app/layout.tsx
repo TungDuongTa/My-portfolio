@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Head from "next/head";
 import localFont from "next/font/local";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -24,13 +26,32 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-        <SpeedInsights />
-      </body>
-    </html>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="keywords"
+          content="portfolio, web developer, Tung Duong Ta, projects, coding"
+        />
+        <meta name="author" content="Tung Duong Ta" />
+        <meta property="og:title" content="Tung Duong Ta's portfolio" />
+        <meta
+          property="og:description"
+          content="I pay attention to details and love to build things."
+        />
+        <meta property="og:url" content="https://tungduongta.vercel.app/" />
+        <meta property="og:type" content="website" />
+        <link rel="icon" href="/favicon.ico" />
+        <title>{String(metadata.title)}</title>
+      </Head>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          {children}
+          <SpeedInsights />
+        </body>
+      </html>
+    </>
   );
 }
