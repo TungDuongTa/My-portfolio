@@ -81,8 +81,8 @@ export default function Home() {
                   I build pixel-perfect, engaging, and accessible digital
                   experiences.
                 </p>
-                <nav
-                  className="nav hidden lg:block"
+                <div
+                  className=" hidden lg:block"
                   aria-label="In-page jump links"
                 >
                   <ul className="mt-16 w-max">
@@ -144,7 +144,7 @@ export default function Home() {
                       </a>
                     </li>
                   </ul>
-                </nav>
+                </div>
               </div>
               <ul
                 className="ml-1 mt-8 flex items-center"
