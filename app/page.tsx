@@ -4,8 +4,7 @@ import Experiences from "./components/Experiences";
 import Projects from "./components/Projects";
 import Spotlight from "./components/Spotlight";
 import { experienceData, projectData } from "./data";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "gsap";
+
 import Link from "next/link";
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string>("about");
@@ -30,25 +29,6 @@ export default function Home() {
     window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-  useGSAP(() => {
-    const tl = gsap.timeline();
-
-    tl.fromTo(
-      "#page-wrapper",
-      { clipPath: "circle(0% at 0% 0%)" },
-      {
-        clipPath: "circle(35% at 10% 10%)",
-        duration: 0.75, // half of the total duration before the pause
-        ease: "power2.inOut",
-      }
-    )
-      .to("#page-wrapper", {
-        clipPath: "circle(75% at 50% 50%)",
-        duration: 0.75, // second half of the animation
-        ease: "power2.inOut",
-      })
-      .addPause("+=0.3"); // adds a 0.3s pause in between the animations
   }, []);
 
   return (
