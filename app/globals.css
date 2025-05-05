@@ -1,5 +1,7 @@
-@import "tailwindcss";
-
+/* @import "tailwindcss"; */
+@import "tailwindcss/theme.css";
+@import "tailwindcss/preflight.css";
+@import "tailwindcss/utilities.css";
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -25,11 +27,11 @@ html {
   --tw-bg-opacity: 1;
   background-color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
-/* * {
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-} */
+}
 html,
 body {
   width: 100%;
@@ -42,6 +44,7 @@ body {
   object-fit: cover;
   will-change: transform;
 }
+
 nav {
   position: fixed;
   top: 0;
@@ -123,8 +126,9 @@ footer p {
   left: 0;
   width: 100%;
   height: 100%;
+
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-  will-change: clip-path;
+  will-change: clip-path opacity;
 }
 .slide-bg-img:after {
   content: "";
@@ -134,14 +138,14 @@ footer p {
   width: 100%;
   height: 100%;
   display: block;
-  background-color: rgba(92, 80, 80, 0.125);
+  background-color: rgba(0, 0, 0, 0.35);
 }
 .slide-main-img {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 20%;
+  width: 25%;
   height: 50%;
   z-index: 2;
 }
@@ -165,7 +169,7 @@ footer p {
 .slide-title {
   position: relative;
   width: 500px;
-  height: 50px;
+  min-height: 50px;
   margin-bottom: 0.75em;
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
 }
@@ -195,7 +199,7 @@ footer p {
   will-change: transform;
 }
 @media (max-width: 900px) {
-  .slider-main-img {
+  .slide-main-img {
     width: 75%;
   }
   .slide-copy {
