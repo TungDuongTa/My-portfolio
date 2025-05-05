@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
+// import { useGSAP } from "@gsap/react";
 import { CustomEase } from "gsap/CustomEase";
 
 gsap.registerPlugin(CustomEase);
 export default function ProjectPage() {
-  const [totalSlides, setTotalSlides] = useState(5);
+  const totalSlides = 5;
   const [currentSlide, setCurrentSlide] = useState(1);
   const [isAnimating, setIsAnimating] = useState(false);
   const [scrollAllowed, setScrollAllowed] = useState(true);
@@ -175,7 +175,7 @@ export default function ProjectPage() {
       0
     )
       .to(
-        currentSlideElement.querySelector("img"),
+        currentSlideElement!.querySelector("img"),
         {
           scale: 1.5,
           duration: 1,
@@ -196,7 +196,7 @@ export default function ProjectPage() {
         0
       )
       .to(
-        currentMainWrapper.querySelector("img"),
+        currentMainWrapper!.querySelector("img"),
         {
           y: direction === "down" ? "-50%" : "50%",
           duration: 1,
