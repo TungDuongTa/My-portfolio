@@ -6,6 +6,7 @@ import Spotlight from "./components/Spotlight";
 import { experienceData, projectData } from "./data";
 
 import Link from "next/link";
+import TextReveal1 from "./components/TextReveal1";
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string>("about");
   useEffect(() => {
@@ -54,13 +55,15 @@ export default function Home() {
                 <h1 className="text-4xl font-bold tracking-tight text-slate-200 sm:text-5xl">
                   <Link href="/">Tung Duong Ta</Link>
                 </h1>
-                <h2 className="mt-3 text-lg font-medium tracking-tight text-slate-200 sm:text-xl">
-                  Junior Software Engineer(Frontend focus)
-                </h2>
-                <p className="mt-4 max-w-xs leading-normal">
-                  I build pixel-perfect, engaging, and accessible digital
-                  experiences.
-                </p>
+                <TextReveal1>
+                  <h2 className="mt-3 text-lg font-medium tracking-tight text-slate-200 sm:text-xl">
+                    Junior Software Engineer(Frontend focus)
+                  </h2>
+                  <p className="mt-4 max-w-xs leading-normal">
+                    I build pixel-perfect, engaging, and accessible digital
+                    experiences.
+                  </p>
+                </TextReveal1>
                 <div
                   className=" hidden lg:block"
                   aria-label="In-page jump links"
@@ -207,16 +210,18 @@ export default function Home() {
                   </h2>
                 </div>
                 <div>
-                  <p className="mt-4">
-                    I’m a web dev with a real passion for crafting engaging,
-                    user-friendly experiences. My focus is on frontend
-                    development, where I get to bring ideas to life with
-                    responsive designs and interactive elements. I am expanding
-                    my knowledge to full-stack development. <br />
-                    Originally, i was a game developer but fail to make
-                    beautiful pieces, so now I am focusing on web development
-                    where i found myselft enjoying it.
-                  </p>
+                  <TextReveal1>
+                    <p className="mt-4">
+                      I’m a web dev with a real passion for crafting engaging,
+                      user-friendly experiences. My focus is on frontend
+                      development, where I get to bring ideas to life with
+                      responsive designs and interactive elements. I am
+                      expanding my knowledge to full-stack development. <br />
+                      Originally, i was a game developer but fail to make
+                      beautiful pieces, so now I am focusing on web development
+                      where i found myselft enjoying it.
+                    </p>
+                  </TextReveal1>
                 </div>
               </section>
               <section
