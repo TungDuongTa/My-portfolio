@@ -337,7 +337,7 @@ export default function ProjectPage() {
   });
   return (
     <main>
-      <nav>
+      {/* <nav>
         <div className="logo font-bold text-2xl">TD</div>
         <div className="nav-items">
           <p>About</p>
@@ -345,7 +345,7 @@ export default function ProjectPage() {
           <p>Resume</p>
           <p>Contact</p>
         </div>
-      </nav>
+      </nav> */}
       <footer>
         <p>All Project</p>
         <div className="slider-counter">

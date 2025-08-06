@@ -4,6 +4,10 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
+import Navbar from "./components/Navbar";
+import { ContainerRefProvider } from "./context/ContainerRefContext";
+import { LenisProvider } from "./components/LenisProvider";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -48,7 +52,12 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          {children}
+          <LenisProvider>
+            <ContainerRefProvider>
+              <Navbar />
+              {children}
+            </ContainerRefProvider>
+          </LenisProvider>
           <SpeedInsights />
         </body>
       </html>
