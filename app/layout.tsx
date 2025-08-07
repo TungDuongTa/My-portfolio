@@ -7,6 +7,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import Navbar from "./components/Navbar";
 import { ContainerRefProvider } from "./context/ContainerRefContext";
 import { LenisProvider } from "./components/LenisProvider";
+import ClientLayoutWrapper from "./components/ClientLayoutWrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -55,7 +56,7 @@ export default function RootLayout({
           <LenisProvider>
             <ContainerRefProvider>
               <Navbar />
-              {children}
+              <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
             </ContainerRefProvider>
           </LenisProvider>
           <SpeedInsights />
