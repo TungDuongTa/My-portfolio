@@ -1,5 +1,4 @@
 import Image from "next/image";
-import TextReveal1 from "./TextReveal1";
 
 type ProjectItemProps = {
   image: string;
@@ -39,9 +38,8 @@ function ProjectItem({
                 rel="noreferrer noopener"
               >
                 <span className="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>
-                <TextReveal1>
-                  <span>{title}</span>
-                </TextReveal1>
+
+                <span>{title}</span>
 
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -55,19 +53,16 @@ function ProjectItem({
               </a>
             </div>
           </h3>
-          <TextReveal1>
-            <p className="mt-2 text-sm leading-normal">{description}</p>
-          </TextReveal1>
+
+          <p className="mt-2 text-sm leading-normal">{description}</p>
 
           <ul className="mt-2 flex flex-wrap">
             {skills.map((skill, index) => (
-              <TextReveal1 key={index}>
-                <li key={index} className="mr-1.5 mt-2">
-                  <div className="flex items-center rounded-full bg-sky-400/10 px-3 py-1 text-xs font-medium leading-5 text-sky-400 ">
-                    {skill}
-                  </div>
-                </li>
-              </TextReveal1>
+              <li key={index} className="mr-1.5 mt-2">
+                <div className="flex items-center rounded-full bg-sky-400/10 px-3 py-1 text-xs font-medium leading-5 text-sky-400 ">
+                  {skill}
+                </div>
+              </li>
             ))}
           </ul>
         </div>

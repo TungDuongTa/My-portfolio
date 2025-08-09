@@ -6,6 +6,7 @@ import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 import { useContainerRef } from "../context/ContainerRefContext";
 import { useLenisContext } from "./LenisProvider";
+import Link from "next/link";
 
 gsap.registerPlugin(CustomEase, SplitText);
 CustomEase.create("hop", ".87,0,.13,1");
@@ -40,7 +41,7 @@ export default function Navbar() {
     splitTextByContainer.current = [];
 
     containers.forEach((container) => {
-      const textElements = container.querySelectorAll("a, p");
+      const textElements = container.querySelectorAll("p,.menu-link-text");
       const containerSplits: SplitText[] = [];
 
       textElements.forEach((element) => {
@@ -85,7 +86,7 @@ export default function Navbar() {
         menuToggleLabelRef.current,
         {
           y: "-110%",
-          duration: 0.75,
+          duration: 1,
           ease: "hop",
         },
         "<"
@@ -94,7 +95,7 @@ export default function Navbar() {
           containerRef.current,
           {
             y: "100svh",
-            duration: 0.75,
+            duration: 1,
             ease: "hop",
           },
           "<"
@@ -103,7 +104,7 @@ export default function Navbar() {
           menuOverlayRef.current,
           {
             clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-            duration: 0.75,
+            duration: 1,
             ease: "hop",
           },
           "<"
@@ -112,7 +113,7 @@ export default function Navbar() {
           menuOverlayContainerRef.current,
           {
             yPercent: 0,
-            duration: 0.75,
+            duration: 1,
             ease: "hop",
           },
           "<"
@@ -150,20 +151,21 @@ export default function Navbar() {
       });
     } else {
       // Closing menu
+      lenis.current?.lenis?.start();
       hamburgerIconRef.current.classList.remove("active");
 
       const tl = gsap.timeline();
 
       tl.to(containerRef.current, {
         y: "0svh",
-        duration: 0.75,
+        duration: 1,
         ease: "hop",
       })
         .to(
           menuOverlayRef.current,
           {
             clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-            duration: 0.75,
+            duration: 1,
             ease: "hop",
           },
           "<"
@@ -172,7 +174,7 @@ export default function Navbar() {
           menuOverlayContainerRef.current,
           {
             yPercent: -50,
-            duration: 0.75,
+            duration: 1,
             ease: "hop",
           },
           "<"
@@ -181,7 +183,7 @@ export default function Navbar() {
           menuToggleLabelRef.current,
           {
             y: "0%",
-            duration: 0.75,
+            duration: 1,
             ease: "hop",
           },
           "<"
@@ -190,7 +192,7 @@ export default function Navbar() {
           copyContainersRef.current,
           {
             opacity: 0.25,
-            duration: 0.75,
+            duration: 1,
             ease: "hop",
           },
           "<"
@@ -208,118 +210,145 @@ export default function Navbar() {
         isAnimatingRef.current = false;
         setIsMenuOpen(false);
 
-        lenis.current?.lenis?.start();
+        // lenis.current?.lenis?.start();
       });
     }
   }
+  //
+  //
+  // Menu link groups
+  const menuLinkGroups = [
+    [
+      { label: "Index", href: "/" },
+      { label: "Portfolio", href: "/projects" },
+      { label: "Studio", href: "/test" },
+      { label: "Journal", href: "/" },
+      { label: "Connect", href: "/" },
+    ],
+    [
+      { label: "Web Animations", href: "#" },
+      { label: "Interactive Media", href: "#" },
+      { label: "Motion Craft", href: "#" },
+    ],
+    [{ label: "Toronto, Canada", href: null }],
+    [
+      { label: "+1 437 555 0199", href: null },
+      { label: "hello@nullspace.studio", href: null },
+    ],
+  ];
 
   return (
     <main>
       <nav className=" fixed top-0 left-0 w-[100vw] h-[100svh] z-50 pointer-events-none overflow-hidden">
-        <div className="menu-bar ">
-          <div className="menu-logo">
-            <a href="#">
+        <div className="menu-bar fixed top-0 left-0 w-screen p-8 flex justify-between items-center pointer-events-auto text-[var(--menu-fg-secondary)] z-20  ">
+          <div className="menu-logo w-8 h-8">
+            <Link href="/">
               <img src="/logo.png" alt="" className="imga" />
-            </a>
+            </Link>
           </div>
           <div
-            className="menu-toggle-btn"
+            className="menu-toggle-btn flex items-center gap-4 cursor-pointer"
             ref={menuToggleBtnRef}
             onClick={toggleMenu}
           >
-            <div className="menu-toggle-label">
-              <p ref={menuToggleLabelRef}>Menu</p>
+            <div className="menu-toggle-label overflow-hidden">
+              <p
+                ref={menuToggleLabelRef}
+                className="relative text-white translate-y-[0%] will-change-transform ]"
+              >
+                Menu
+              </p>
             </div>
-            <div className="menu-hamburger-icon" ref={hamburgerIconRef}>
-              <span></span>
-              <span></span>
+            <div
+              className="menu-hamburger-icon relative w-12 h-12 flex flex-col justify-center items-center gap-[0.3rem] border border-[var(--hamburger-icon-border)] rounded-full"
+              ref={hamburgerIconRef}
+            >
+              <span className="absolute w-[15px] h-[1.25px] bg-[var(--fg)] transition-all duration-[750ms] ease-[cubic-bezier(0.87,0,0.13,1)] origin-center will-change-transform"></span>
+              <span className="absolute w-[15px] h-[1.25px] bg-[var(--fg)] transition-all duration-[750ms] ease-[cubic-bezier(0.87,0,0.13,1)] origin-center will-change-transform"></span>
             </div>
           </div>
         </div>
 
-        <div className="menu-overlay" ref={menuOverlayRef}>
-          <div className="menu-overlay-content" ref={menuOverlayContainerRef}>
-            <div className="menu-media-wrapper" ref={menuMediaWrapperRef}>
-              <img src="/menu-media.jpg" alt="" className="imga" />
+        <div
+          className="menu-overlay fixed top-0 left-0 w-screen h-[100svh] text-[var(--fg)] overflow-hidden z-[1] bg-[var(--menu-bg)] [clip-path:polygon(0%_0%,100%_0%,100%_0%,0%_0%)] will-change-[clip-path]"
+          ref={menuOverlayRef}
+        >
+          <div
+            className="menu-overlay-content fixed top-0 left-0 w-screen h-[100svh] text-[var(--fg)] overflow-hidden z-[1] flex -translate-y-1/2 will-change-transform pointer-events-auto"
+            ref={menuOverlayContainerRef}
+          >
+            <div
+              className="menu-media-wrapper flex-[2] opacity-0 will-change-opacity"
+              ref={menuMediaWrapperRef}
+            >
+              <img src="/menu-media.jpg" alt="" className="imga opacity-25" />
             </div>
-            <div className="menu-content-wrapper">
-              <div className="menu-content-main">
-                <div
-                  className="menu-col"
-                  ref={(el) => {
-                    if (el && !copyContainersRef.current.includes(el)) {
-                      copyContainersRef.current.push(el);
-                    }
-                  }}
-                >
-                  <div className="menu-link">
-                    <a href="#" onClick={toggleMenu}>
-                      Index
-                    </a>
+            <div className="menu-content-wrapper flex-[3] relative flex">
+              <div className="menu-content-main absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 p-8 flex items-end gap-8">
+                {/* Map the first two groups as menu columns with links */}
+                {menuLinkGroups.slice(0, 2).map((group, i) => (
+                  <div
+                    key={i}
+                    className="menu-col flex flex-col gap-2"
+                    ref={(el) => {
+                      if (el && !copyContainersRef.current.includes(el)) {
+                        copyContainersRef.current.push(el);
+                      }
+                    }}
+                  >
+                    {group.map(({ label, href }, index) =>
+                      href ? (
+                        <div
+                          className={i === 0 ? "menu-link" : "menu-tag"}
+                          key={index}
+                        >
+                          <Link
+                            href={href}
+                            onClick={toggleMenu}
+                            style={{
+                              pointerEvents: isMenuOpen ? "auto" : "none",
+                            }}
+                          >
+                            <span className="menu-link-text">{label}</span>
+                          </Link>
+                        </div>
+                      ) : (
+                        <p key={index}>{label}</p>
+                      )
+                    )}
                   </div>
-                  <div className="menu-link">
-                    <a href="/projects" onClick={toggleMenu}>
-                      Portfolio
-                    </a>
-                  </div>
-                  <div className="menu-link">
-                    <a href="#" onClick={toggleMenu}>
-                      Studio
-                    </a>
-                  </div>
-                  <div className="menu-link">
-                    <a href="#" onClick={toggleMenu}>
-                      Journal
-                    </a>
-                  </div>
-                  <div className="menu-link">
-                    <a href="#" onClick={toggleMenu}>
-                      Connect
-                    </a>
-                  </div>
-                </div>
-
-                <div
-                  className="menu-col"
-                  ref={(el) => {
-                    if (el && !copyContainersRef.current.includes(el)) {
-                      copyContainersRef.current.push(el);
-                    }
-                  }}
-                >
-                  <div className="menu-tag">
-                    <a href="#">Web Animations</a>
-                  </div>
-                  <div className="menu-tag">
-                    <a href="#">Interactive Media</a>
-                  </div>
-                  <div className="menu-tag">
-                    <a href="#">Motion Craft</a>
-                  </div>
-                </div>
+                ))}
               </div>
-              <div className="menu-footer">
-                <div
-                  className="menu-col"
-                  ref={(el) => {
-                    if (el && !copyContainersRef.current.includes(el)) {
-                      copyContainersRef.current.push(el);
-                    }
-                  }}
-                >
-                  <p>Toronto, Canada</p>
-                </div>
-                <div
-                  className="menu-col"
-                  ref={(el) => {
-                    if (el && !copyContainersRef.current.includes(el)) {
-                      copyContainersRef.current.push(el);
-                    }
-                  }}
-                >
-                  <p>+1 437 555 0199</p>
-                  <p>hello@nullspace.studio</p>
-                </div>
+              <div className="menu-footer mx-auto w-3/4 p-8 flex items-end gap-8">
+                {/* Map the last two groups as footer menu columns */}
+                {menuLinkGroups.slice(2).map((group, i) => (
+                  <div
+                    key={i}
+                    className="menu-col flex flex-col gap-2"
+                    ref={(el) => {
+                      if (el && !copyContainersRef.current.includes(el)) {
+                        copyContainersRef.current.push(el);
+                      }
+                    }}
+                  >
+                    {group.map(({ label, href }, index) =>
+                      href ? (
+                        <Link
+                          href={href}
+                          key={index}
+                          onClick={toggleMenu}
+                          style={{
+                            pointerEvents: isMenuOpen ? "auto" : "none",
+                          }}
+                        >
+                          <span className="menu-link-text">{label}</span>
+                        </Link>
+                      ) : (
+                        <p key={index}>{label}</p>
+                      )
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
           </div>

@@ -3,6 +3,7 @@
 import { createContext, useContext, useRef, useEffect } from "react";
 import { ReactLenis, LenisRef } from "lenis/react";
 import gsap from "gsap";
+import { usePathname } from "next/navigation";
 
 interface LenisContextType {
   lenis: React.RefObject<LenisRef | null>;
@@ -12,6 +13,13 @@ const LenisContext = createContext<LenisContextType | undefined>(undefined);
 
 export const LenisProvider = ({ children }: { children: React.ReactNode }) => {
   const lenisRef = useRef<LenisRef>(null);
+  const pathname = usePathname();
+  // Scroll to top on route change
+  useEffect(() => {
+    if (lenisRef.current?.lenis) {
+      lenisRef.current.lenis.scrollTo(0, { immediate: true });
+    }
+  }, [pathname]);
 
   useEffect(() => {
     const update = (time: number) => {

@@ -51,7 +51,7 @@ export default function RootLayout({
       </Head>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x--hidden`}
         >
           <LenisProvider>
             <ContainerRefProvider>

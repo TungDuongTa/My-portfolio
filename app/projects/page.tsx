@@ -293,7 +293,7 @@ export default function ProjectPage() {
     let touchStartY = 0;
     let isTouchActive = false;
     const handleScrollEvent = (e: WheelEvent) => {
-      e.preventDefault();
+      // e.preventDefault();
       const direction = e.deltaY > 0 ? "down" : "up";
       handleScroll(direction);
     };
@@ -302,7 +302,7 @@ export default function ProjectPage() {
       isTouchActive = true;
     };
     const handleTouchMove = (e: TouchEvent) => {
-      e.preventDefault();
+      // e.preventDefault();
       if (!isTouchActive || isAnimating || !scrollAllowed) return;
       const touchEndY = e.touches[0].clientY;
       const difference = touchStartY - touchEndY;
@@ -336,16 +336,7 @@ export default function ProjectPage() {
     };
   });
   return (
-    <main>
-      {/* <nav>
-        <div className="logo font-bold text-2xl">TD</div>
-        <div className="nav-items">
-          <p>About</p>
-          <p>Project</p>
-          <p>Resume</p>
-          <p>Contact</p>
-        </div>
-      </nav> */}
+    <main className=" ">
       <footer>
         <p>All Project</p>
         <div className="slider-counter">
