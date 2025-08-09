@@ -59,7 +59,7 @@ export default function ProjectPage() {
     const img = document.createElement("img");
     img.src = `/testimg-${slideNumber}.webp`;
     img.alt = `Slide ${slideNumber}`;
-    img.className = "imga rounded-md";
+    img.className = "imga";
     wrapper.appendChild(img);
     if (direction === "down") {
       wrapper.style.clipPath = "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)";
@@ -178,7 +178,7 @@ export default function ProjectPage() {
         currentSlideElement!.querySelector("img"),
         {
           scale: 1.5,
-          duration: 1,
+          duration: 1.25,
           ease: CustomEase.create("", ".87,0,.13,1"),
         },
         0
@@ -190,7 +190,7 @@ export default function ProjectPage() {
             direction === "down"
               ? "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)"
               : "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
-          duration: 1,
+          duration: 1.25,
           ease: CustomEase.create("", ".87,0,.13,1"),
         },
         0
@@ -199,7 +199,7 @@ export default function ProjectPage() {
         currentMainWrapper!.querySelector("img"),
         {
           y: direction === "down" ? "-50%" : "50%",
-          duration: 1,
+          duration: 1.25,
           ease: CustomEase.create("", ".87,0,.13,1"),
         },
         0
@@ -208,7 +208,7 @@ export default function ProjectPage() {
         newMainWrapper.querySelector("img"),
         {
           y: "0%",
-          duration: 1,
+          duration: 1.25,
           ease: CustomEase.create("", ".87,0,.13,1"),
         },
         0
@@ -217,7 +217,7 @@ export default function ProjectPage() {
         currentTitle,
         {
           y: direction === "down" ? -50 : 50,
-          duration: 1,
+          duration: 1.25,
           ease: CustomEase.create("", ".87,0,.13,1"),
         },
         0
@@ -226,7 +226,7 @@ export default function ProjectPage() {
         newTitle,
         {
           y: 0,
-          duration: 1,
+          duration: 1.25,
           ease: CustomEase.create("", ".87,0,.13,1"),
         },
         0
@@ -235,7 +235,7 @@ export default function ProjectPage() {
         currentDescription,
         {
           y: direction === "down" ? -20 : 20,
-          duration: 1,
+          duration: 1.25,
           ease: CustomEase.create("", ".87,0,.13,1"),
         },
         0
@@ -244,7 +244,7 @@ export default function ProjectPage() {
         newDescription,
         {
           y: 0,
-          duration: 1,
+          duration: 1.25,
           ease: CustomEase.create("", ".87,0,.13,1"),
         },
         0
@@ -253,7 +253,7 @@ export default function ProjectPage() {
         currentCounter,
         {
           y: direction === "down" ? -18 : 18,
-          duration: 1,
+          duration: 1.25,
           ease: CustomEase.create("", ".87,0,.13,1"),
         },
         0
@@ -262,7 +262,7 @@ export default function ProjectPage() {
         newCounter,
         {
           y: 0,
-          duration: 1,
+          duration: 1.25,
           ease: CustomEase.create("", ".87,0,.13,1"),
         },
         0
@@ -336,32 +336,31 @@ export default function ProjectPage() {
     };
   });
   return (
-    <main className=" ">
-      <footer>
-        <p>All Project</p>
+    <main className="overflow-hidden ">
+      <footer className="">
+        <p>All Projects</p>
+
         <div className="slider-counter">
           <div className="count">
-            <p>{currentSlide}</p>
+            <p>1</p>
           </div>
           <p>/</p>
-          <p>{totalSlides}</p>
+          <p>7</p>
         </div>
       </footer>
       <div className="slider">
         <div className="slide">
           <div className="slide-bg-img">
-            <img src="/testimg-1.webp" alt="Slide 1" className="imga" />
+            <img src="./testimg-4.webp" alt="" className="imga" />
           </div>
         </div>
-        <div className="slide-main-img shadow-2xs">
+
+        <div className="slide-main-img">
           <div className="slide-main-img-wrapper">
-            <img
-              src="/testimg-1.webp"
-              alt="Slide 1"
-              className="imga rounded-md "
-            />
+            <img src="./testimg-4.webp" alt="" className="imga" />
           </div>
         </div>
+
         <div className="slide-copy">
           <div className="slide-title">
             <h1>Field Unit</h1>
