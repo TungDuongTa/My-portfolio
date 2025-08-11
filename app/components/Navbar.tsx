@@ -5,14 +5,15 @@ import { CustomEase } from "gsap/CustomEase";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 import { useContainerRef } from "../context/ContainerRefContext";
-import { useLenisContext } from "./LenisProvider";
+import { ScrollTrigger } from "gsap/all";
+// import { useLenisContext } from "./LenisProvider";
 import Link from "next/link";
 
-gsap.registerPlugin(CustomEase, SplitText);
+gsap.registerPlugin(CustomEase, SplitText, ScrollTrigger);
 CustomEase.create("hop", ".87,0,.13,1");
 
 export default function Navbar() {
-  const { lenis } = useLenisContext();
+  // const { lenis } = useLenisContext();
   // Refs to DOM elements
   const { containerRef } = useContainerRef();
   // const containerRef = useRef<HTMLDivElement | null>(null);
@@ -78,7 +79,7 @@ export default function Navbar() {
     if (!isMenuOpen) {
       // Opening menu
       // Replace 'lenis' with your Lenis instance, or comment out if unused
-      lenis.current?.lenis?.stop();
+      // lenis.current?.lenis?.stop();
 
       const tl = gsap.timeline();
 
@@ -151,7 +152,7 @@ export default function Navbar() {
       });
     } else {
       // Closing menu
-      lenis.current?.lenis?.start();
+      // lenis.current?.lenis?.start();
       hamburgerIconRef.current.classList.remove("active");
 
       const tl = gsap.timeline();
@@ -220,8 +221,8 @@ export default function Navbar() {
   const menuLinkGroups = [
     [
       { label: "Index", href: "/" },
-      { label: "Portfolio", href: "/projects" },
-      { label: "Studio", href: "/test" },
+      { label: "Projects", href: "/projects" },
+      { label: "Resume", href: "/resume" },
       { label: "Journal", href: "/" },
       { label: "Connect", href: "/" },
     ],

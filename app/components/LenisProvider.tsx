@@ -12,8 +12,9 @@ interface LenisContextType {
 const LenisContext = createContext<LenisContextType | undefined>(undefined);
 
 export const LenisProvider = ({ children }: { children: React.ReactNode }) => {
-  const lenisRef = useRef<LenisRef>(null);
+  const lenisRef = useRef<LenisRef | null>(null);
   const pathname = usePathname();
+
   // Scroll to top on route change
   useEffect(() => {
     if (lenisRef.current?.lenis) {
@@ -33,7 +34,7 @@ export const LenisProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <ReactLenis ref={lenisRef} root>
+    <ReactLenis root options={{ autoRaf: false }} ref={lenisRef}>
       <LenisContext.Provider value={{ lenis: lenisRef }}>
         {children}
       </LenisContext.Provider>

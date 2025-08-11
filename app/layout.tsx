@@ -53,12 +53,12 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x--hidden`}
         >
-          <LenisProvider>
-            <ContainerRefProvider>
-              <Navbar />
-              <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
-            </ContainerRefProvider>
-          </LenisProvider>
+          {/* <LenisProvider> */}
+          <ContainerRefProvider>
+            <Navbar />
+            <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
+          </ContainerRefProvider>
+          {/* </LenisProvider> */}
           <SpeedInsights />
         </body>
       </html>
