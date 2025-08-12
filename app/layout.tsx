@@ -6,7 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import Navbar from "./components/Navbar";
 import { ContainerRefProvider } from "./context/ContainerRefContext";
-import { LenisProvider } from "./components/LenisProvider";
+// import { LenisProvider } from "./components/LenisProvider";
 import ClientLayoutWrapper from "./components/ClientLayoutWrapper";
 
 const geistSans = localFont({

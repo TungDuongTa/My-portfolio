@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
-import Lenis from "lenis";
+// import Lenis from "lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import LenisWrapper from "./LenisWrapper";
@@ -49,10 +49,23 @@ export default function Hero() {
   const heroHeaderRef = useRef<HTMLDivElement | null>(null);
   const heroSectionRef = useRef<HTMLDivElement | null>(null);
 
-  // // Reset multiple-element refs on each render
-  // iconElementsRef.current = [];
-  // textSegmentsRef.current = [];
-  // placeholdersRef.current = [];
+  // Clear the arrays on every render to avoid accumulating stale refs
+  textSegmentsRef.current = [];
+  placeholdersRef.current = [];
+  iconElementsRef.current = [];
+
+  // Stable ref setters that assign element at specific index. VERY IMPORTANT
+  const setTextSegmentRef = (index: number) => (el: HTMLSpanElement | null) => {
+    textSegmentsRef.current[index] = el;
+  };
+
+  const setPlaceholderRef = (index: number) => (el: HTMLDivElement | null) => {
+    placeholdersRef.current[index] = el;
+  };
+
+  const setIconElementRef = (index: number) => (el: HTMLDivElement | null) => {
+    iconElementsRef.current[index] = el;
+  };
 
   //Randomize text segments appearance order
   useGSAP(() => {
@@ -359,19 +372,19 @@ export default function Hero() {
   return (
     <LenisWrapper>
       <main
-        className=" h-screen overflow-y-scroll scroll-container overflow-x-hidden"
+        className="h-screen overflow-y-scroll scroll-container overflow-x-hidden"
         id="page-wrapper"
       >
         <section
           id="main-content"
           ref={heroSectionRef}
-          className="hero flex-col transition-colors duration-300 ease-in-out relative w-screen h-[100svh] p-6 flex items-center justify-center bg-[#141414] text-[#e3e3db] overflow-hidden "
+          className="hero flex-col transition-colors duration-300 ease-in-out relative w-screen h-[100svh] p-6 flex items-center justify-center bg-[#141414] text-[#e3e3db] overflow-hidden"
         >
           <div
             ref={heroHeaderRef}
             className="hero-header absolute top-[35%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] text-center flex flex-col gap-8 will-change-[transform,opacity]"
           >
-            <h1 className="font-extrabold text-[7vw] leading-none ">
+            <h1 className="font-extrabold text-[7vw] leading-none">
               Tung Duong Ta
             </h1>
             <p className="text-2xl font-normal">Front-end software Engineer</p>
@@ -384,9 +397,7 @@ export default function Hero() {
             {icons.map((src, index) => (
               <div
                 key={index}
-                ref={(el) => {
-                  iconElementsRef.current[index] = el;
-                }}
+                ref={setIconElementRef(index)}
                 className={`animated-icon icon-${
                   index + 1
                 } flex-1 aspect-[1] will-change-transform`}
@@ -396,89 +407,34 @@ export default function Hero() {
             ))}
           </div>
 
-          <h1 className="animated-text relative max-w-[1000px] text-center text-[#141414] text-[clamp(2rem,5vw,4rem)] font-extrabold leading-none ">
-            <div
-              ref={(el) => {
-                placeholdersRef.current.push(el);
-              }}
-              className="placeholder-icon"
-            ></div>
-            <span
-              ref={(el) => {
-                textSegmentsRef.current.push(el);
-              }}
-              className="text-segment"
-            >
+          <h1 className="animated-text relative max-w-[1000px] text-center text-[#141414] text-[clamp(2rem,5vw,4rem)] font-extrabold leading-none">
+            <div ref={setPlaceholderRef(0)} className="placeholder-icon"></div>
+            <span ref={setTextSegmentRef(0)} className="text-segment">
               Delve into coding
             </span>
-            <div
-              ref={(el) => {
-                placeholdersRef.current.push(el);
-              }}
-              className="placeholder-icon"
-            ></div>
-            <span
-              ref={(el) => {
-                textSegmentsRef.current.push(el);
-              }}
-              className="text-segment"
-            >
+            <div ref={setPlaceholderRef(1)} className="placeholder-icon"></div>
+            <span ref={setTextSegmentRef(1)} className="text-segment">
               without clutter.
             </span>
-            <span
-              ref={(el) => {
-                textSegmentsRef.current.push(el);
-              }}
-              className="text-segment"
-            >
+            <span ref={setTextSegmentRef(2)} className="text-segment">
               Unlock source code{" "}
             </span>
-            <div
-              ref={(el) => {
-                placeholdersRef.current.push(el);
-              }}
-              className="placeholder-icon"
-            ></div>
-            <span
-              ref={(el) => {
-                textSegmentsRef.current.push(el);
-              }}
-              className="text-segment"
-            >
+            <div ref={setPlaceholderRef(2)} className="placeholder-icon"></div>
+            <span ref={setTextSegmentRef(3)} className="text-segment">
               for every tutorial
             </span>
-            <div
-              ref={(el) => {
-                placeholdersRef.current.push(el);
-              }}
-              className="placeholder-icon"
-            ></div>
-            <span
-              ref={(el) => {
-                textSegmentsRef.current.push(el);
-              }}
-              className="text-segment"
-            >
+            <div ref={setPlaceholderRef(3)} className="placeholder-icon"></div>
+            <span ref={setTextSegmentRef(4)} className="text-segment">
               published on the Codegrid
             </span>
-            <div
-              ref={(el) => {
-                placeholdersRef.current.push(el);
-              }}
-              className="placeholder-icon"
-            ></div>
-            <span
-              ref={(el) => {
-                textSegmentsRef.current.push(el);
-              }}
-              className="text-segment"
-            >
+            <div ref={setPlaceholderRef(4)} className="placeholder-icon"></div>
+            <span ref={setTextSegmentRef(5)} className="text-segment">
               YouTube channel.
             </span>
           </h1>
         </section>
 
-        <section className="outro relative w-screen h-[100svh] p-6 flex items-center justify-center bg-[#141414] text-[#e3e3db] overflow-hidden ">
+        <section className="outro relative w-screen h-[100svh] p-6 flex items-center justify-center bg-[#141414] text-[#e3e3db] overflow-hidden">
           <h1>Link in description</h1>
         </section>
       </main>
