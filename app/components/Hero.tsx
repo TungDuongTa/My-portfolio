@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import Lenis from "lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import LenisWrapper from "./LenisWrapper";
 declare global {
   interface Window {
@@ -48,13 +49,19 @@ export default function Hero() {
   const heroHeaderRef = useRef<HTMLDivElement | null>(null);
   const heroSectionRef = useRef<HTMLDivElement | null>(null);
 
-  // Reset multiple-element refs on each render
-  iconElementsRef.current = [];
-  textSegmentsRef.current = [];
-  placeholdersRef.current = [];
+  // // Reset multiple-element refs on each render
+  // iconElementsRef.current = [];
+  // textSegmentsRef.current = [];
+  // placeholdersRef.current = [];
 
   //Randomize text segments appearance order
-  useEffect(() => {
+  useGSAP(() => {
+    console.log("animatedIconsRef:", animatedIconsRef.current);
+    console.log("iconElementsRef:", iconElementsRef.current);
+    console.log("textSegmentsRef:", textSegmentsRef.current);
+    console.log("placeholdersRef:", placeholdersRef.current);
+    console.log("heroHeaderRef:", heroHeaderRef.current);
+    console.log("heroSectionRef:", heroSectionRef.current);
     let textAnimationOrder: {
       segment: HTMLSpanElement | null;
       originalIndex: number;
@@ -86,7 +93,7 @@ export default function Hero() {
     const currentIconSize = firstIcon.getBoundingClientRect().width;
     const exactScale = headerIconSize / currentIconSize;
 
-    // // Create the ScrollTrigger
+    // Create the ScrollTrigger
     const animatedIcons = animatedIconsRef.current!;
     const iconElements = iconElementsRef.current;
     const heroHeader = heroHeaderRef.current!;
@@ -117,7 +124,7 @@ export default function Hero() {
             const headerProgress = progress / 0.15;
             const headerMoveY = -50 * headerProgress;
             const headerOpacity = 1 - headerProgress;
-
+            // Move the hero header up and fade it out
             gsap.set(heroHeader, {
               transform: `translate(-50%, calc(-50% + ${headerMoveY}px))`,
               opacity: headerOpacity,
@@ -138,14 +145,14 @@ export default function Hero() {
             });
             window.duplicateIcons = null;
           }
-          //
+          //moving icon container upwards
           gsap.set(animatedIcons, {
             x: 0,
             y: containerMoveY,
             scale: 1,
             opacity: 1,
           });
-          //
+          //give each icon a staggered movement
           iconElements.forEach((icon, index) => {
             const staggerDelay = index * 0.1;
             const iconStart = staggerDelay;
@@ -169,19 +176,20 @@ export default function Hero() {
             });
           });
         } else if (progress <= 0.6) {
+          //animate icon as it scale up and move toward the center of the screen
           const scaleProgress = (progress - 0.3) / 0.3;
-          //
+          //keep header hidden
           gsap.set(heroHeader, {
             transform: `translate(-50%, calc(-50% + -50px))`,
             opacity: 0,
           });
-          //
+          //changing background color
           if (scaleProgress >= 0.5) {
             heroSection.style.backgroundColor = "#e3e3db";
           } else {
             heroSection.style.backgroundColor = "#141414";
           }
-          //
+          //clean up the duplicate icons
           if (window.duplicateIcons) {
             window.duplicateIcons.forEach((duplicate) => {
               if (duplicate.parentNode) {
@@ -190,7 +198,7 @@ export default function Hero() {
             });
             window.duplicateIcons = null;
           }
-          //
+          //need icon container to move from it current position to the center of the screen
           const targetCenterY = window.innerHeight / 2;
           const targetCenterX = window.innerWidth / 2;
           const containerRect = animatedIcons.getBoundingClientRect();
@@ -200,7 +208,7 @@ export default function Hero() {
           const deltaY = (targetCenterY - currentCenterY) * scaleProgress;
           const baseY = -window.innerHeight * 0.3;
           const currentScale = 1 + (exactScale - 1) * scaleProgress;
-          //
+          //icon start at original size, by the time it hit 60% scroll, it scale down to match the size of the placeholder inside the headline
           gsap.set(animatedIcons, {
             x: deltaX,
             y: baseY + deltaY,
@@ -218,7 +226,7 @@ export default function Hero() {
             transform: `translate(-50%, calc(-50% + -50px))`,
             opacity: 0,
           });
-          //
+          //icon container fade out and each icon is animated individually to fly into it placeholder in the headline
           heroSection.style.backgroundColor = "#e3e3db";
 
           const targetCenterY = window.innerHeight / 2;
@@ -229,7 +237,7 @@ export default function Hero() {
           const deltaX = targetCenterX - currentCenterX;
           const deltaY = targetCenterY - currentCenterY;
           const baseY = -window.innerHeight * 0.3;
-          //
+          //set icon container to the center of the screen, apply scale value and drop opacity to 0
           gsap.set(animatedIcons, {
             x: deltaX,
             y: baseY + deltaY,
@@ -240,7 +248,7 @@ export default function Hero() {
           iconElements.forEach((icon) => {
             gsap.set(icon, { x: 0, y: 0 });
           });
-          //
+          //clone each icon manually and position it at the original icon position, but with absolute position
           if (!window.duplicateIcons) {
             window.duplicateIcons = [];
 
@@ -250,16 +258,18 @@ export default function Hero() {
               duplicate.style.position = "absolute";
               duplicate.style.width = headerIconSize + "px";
               duplicate.style.height = headerIconSize + "px";
-
-              document.body.appendChild(duplicate);
+              //store each icon clone in the body and and store them in an arrat
+              // document.body.appendChild(duplicate);
+              heroSectionRef.current?.appendChild(duplicate);
               window.duplicateIcons!.push(duplicate);
             });
           }
-          //
+
           if (window.duplicateIcons) {
             window.duplicateIcons.forEach((duplicate, index) => {
               if (index < placeholders.length) {
                 const iconRect = iconElements[index]!.getBoundingClientRect();
+
                 const startCenterX = iconRect.left + iconRect.width / 2;
                 const startCenterY = iconRect.top + iconRect.height / 2;
                 const startPageX = startCenterX + window.pageXOffset;
@@ -276,7 +286,7 @@ export default function Hero() {
 
                 let currentX = 0;
                 let currentY = 0;
-
+                //move clone icon vertically first, then horizontally
                 if (moveProgress <= 0.5) {
                   const verticalProgress = moveProgress / 0.5;
                   currentY = moveY * verticalProgress;
@@ -349,131 +359,128 @@ export default function Hero() {
   return (
     <LenisWrapper>
       <main
+        className=" h-screen overflow-y-scroll scroll-container overflow-x-hidden"
         id="page-wrapper"
-        className="relative overflow-y-scroll h-screen scroll-container "
       >
-        <div className=" " id="main-content">
-          <section
-            ref={heroSectionRef}
-            className="hero flex-col transition-colors duration-300 ease-in-out relative w-screen h-[100svh] p-6 flex items-center justify-center bg-[#141414] text-[#e3e3db] overflow-hidden "
+        <section
+          id="main-content"
+          ref={heroSectionRef}
+          className="hero flex-col transition-colors duration-300 ease-in-out relative w-screen h-[100svh] p-6 flex items-center justify-center bg-[#141414] text-[#e3e3db] overflow-hidden "
+        >
+          <div
+            ref={heroHeaderRef}
+            className="hero-header absolute top-[35%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] text-center flex flex-col gap-8 will-change-[transform,opacity]"
           >
-            <div
-              ref={heroHeaderRef}
-              className="hero-header absolute top-[35%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] text-center flex flex-col gap-8 will-change-[transform,opacity]"
-            >
-              <h1 className="font-extrabold text-[7vw] leading-none ">
-                CodegridPRO
-              </h1>
-              <p className="text-2xl font-normal">
-                One subscription, endless web design.
-              </p>
-            </div>
-
-            <div
-              ref={animatedIconsRef}
-              className="animated-icons fixed bottom-[1rem] left-[1rem] right-[1rem] flex items-center gap-4 will-change-transform z-2"
-            >
-              {icons.map((src, index) => (
-                <div
-                  key={index}
-                  ref={(el) => {
-                    iconElementsRef.current[index] = el;
-                  }}
-                  className={`animated-icon icon-${
-                    index + 1
-                  } flex-1 aspect-[1] will-change-transform`}
-                >
-                  <img src={src} alt={`Icon ${index + 1}`} className="imga" />
-                </div>
-              ))}
-            </div>
-
-            <h1 className="animated-text relative max-w-[1000px] text-center text-[#141414] text-[clamp(2rem,5vw,4rem)] font-extrabold leading-none ">
-              <div
-                ref={(el) => {
-                  placeholdersRef.current.push(el);
-                }}
-                className="placeholder-icon"
-              ></div>
-              <span
-                ref={(el) => {
-                  textSegmentsRef.current.push(el);
-                }}
-                className="text-segment"
-              >
-                Delve into coding
-              </span>
-              <div
-                ref={(el) => {
-                  placeholdersRef.current.push(el);
-                }}
-                className="placeholder-icon"
-              ></div>
-              <span
-                ref={(el) => {
-                  textSegmentsRef.current.push(el);
-                }}
-                className="text-segment"
-              >
-                without clutter.
-              </span>
-              <span
-                ref={(el) => {
-                  textSegmentsRef.current.push(el);
-                }}
-                className="text-segment"
-              >
-                Unlock source code{" "}
-              </span>
-              <div
-                ref={(el) => {
-                  placeholdersRef.current.push(el);
-                }}
-                className="placeholder-icon"
-              ></div>
-              <span
-                ref={(el) => {
-                  textSegmentsRef.current.push(el);
-                }}
-                className="text-segment"
-              >
-                for every tutorial
-              </span>
-              <div
-                ref={(el) => {
-                  placeholdersRef.current.push(el);
-                }}
-                className="placeholder-icon"
-              ></div>
-              <span
-                ref={(el) => {
-                  textSegmentsRef.current.push(el);
-                }}
-                className="text-segment"
-              >
-                published on the Codegrid
-              </span>
-              <div
-                ref={(el) => {
-                  placeholdersRef.current.push(el);
-                }}
-                className="placeholder-icon"
-              ></div>
-              <span
-                ref={(el) => {
-                  textSegmentsRef.current.push(el);
-                }}
-                className="text-segment"
-              >
-                YouTube channel.
-              </span>
+            <h1 className="font-extrabold text-[7vw] leading-none ">
+              Tung Duong Ta
             </h1>
-          </section>
+            <p className="text-2xl font-normal">Front-end software Engineer</p>
+          </div>
 
-          <section className="outro relative w-screen h-[100svh] p-6 flex items-center justify-center bg-[#141414] text-[#e3e3db] overflow-hidden ">
-            <h1>Link in description</h1>
-          </section>
-        </div>
+          <div
+            ref={animatedIconsRef}
+            className="animated-icons fixed bottom-[1rem] left-[1rem] right-[1rem] flex items-center gap-4 will-change-transform z-2"
+          >
+            {icons.map((src, index) => (
+              <div
+                key={index}
+                ref={(el) => {
+                  iconElementsRef.current[index] = el;
+                }}
+                className={`animated-icon icon-${
+                  index + 1
+                } flex-1 aspect-[1] will-change-transform`}
+              >
+                <img src={src} alt={`Icon ${index + 1}`} className="imga" />
+              </div>
+            ))}
+          </div>
+
+          <h1 className="animated-text relative max-w-[1000px] text-center text-[#141414] text-[clamp(2rem,5vw,4rem)] font-extrabold leading-none ">
+            <div
+              ref={(el) => {
+                placeholdersRef.current.push(el);
+              }}
+              className="placeholder-icon"
+            ></div>
+            <span
+              ref={(el) => {
+                textSegmentsRef.current.push(el);
+              }}
+              className="text-segment"
+            >
+              Delve into coding
+            </span>
+            <div
+              ref={(el) => {
+                placeholdersRef.current.push(el);
+              }}
+              className="placeholder-icon"
+            ></div>
+            <span
+              ref={(el) => {
+                textSegmentsRef.current.push(el);
+              }}
+              className="text-segment"
+            >
+              without clutter.
+            </span>
+            <span
+              ref={(el) => {
+                textSegmentsRef.current.push(el);
+              }}
+              className="text-segment"
+            >
+              Unlock source code{" "}
+            </span>
+            <div
+              ref={(el) => {
+                placeholdersRef.current.push(el);
+              }}
+              className="placeholder-icon"
+            ></div>
+            <span
+              ref={(el) => {
+                textSegmentsRef.current.push(el);
+              }}
+              className="text-segment"
+            >
+              for every tutorial
+            </span>
+            <div
+              ref={(el) => {
+                placeholdersRef.current.push(el);
+              }}
+              className="placeholder-icon"
+            ></div>
+            <span
+              ref={(el) => {
+                textSegmentsRef.current.push(el);
+              }}
+              className="text-segment"
+            >
+              published on the Codegrid
+            </span>
+            <div
+              ref={(el) => {
+                placeholdersRef.current.push(el);
+              }}
+              className="placeholder-icon"
+            ></div>
+            <span
+              ref={(el) => {
+                textSegmentsRef.current.push(el);
+              }}
+              className="text-segment"
+            >
+              YouTube channel.
+            </span>
+          </h1>
+        </section>
+
+        <section className="outro relative w-screen h-[100svh] p-6 flex items-center justify-center bg-[#141414] text-[#e3e3db] overflow-hidden ">
+          <h1>Link in description</h1>
+        </section>
       </main>
     </LenisWrapper>
   );

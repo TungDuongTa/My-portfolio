@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-gsap.registerPlugin(ScrollTrigger);
 export default function LenisWrapper({
   children,
 }: {
@@ -28,19 +27,22 @@ export default function LenisWrapper({
       lenisRef.current.on("scroll", () => {
         ScrollTrigger.update();
       });
+      // After setup, refresh ScrollTrigger to recalc positions
+      ScrollTrigger.refresh();
       return () => {
-        gsap.ticker.remove(update);
         lenisRef.current?.destroy();
         lenisRef.current = null;
+        gsap.ticker.remove(update);
+        ScrollTrigger.killAll();
       };
 
       // requestAnimationFrame(animate);
     }
 
-    return () => {
-      lenisRef.current?.destroy();
-      lenisRef.current = null;
-    };
+    // return () => {
+    //   lenisRef.current?.destroy();
+    //   lenisRef.current = null;
+    // };
   }, []);
 
   return <>{children}</>;

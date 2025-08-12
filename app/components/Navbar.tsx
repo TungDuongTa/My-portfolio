@@ -227,14 +227,14 @@ export default function Navbar() {
       { label: "Connect", href: "/" },
     ],
     [
-      { label: "Web Animations", href: "#" },
-      { label: "Interactive Media", href: "#" },
-      { label: "Motion Craft", href: "#" },
+      { label: "LinkedIn", href: "#" },
+      { label: "Facebook", href: "#" },
+      { label: "Github", href: "#" },
     ],
-    [{ label: "Toronto, Canada", href: null }],
+    [{ label: "Wollongong, Australia", href: null }],
     [
-      { label: "+1 437 555 0199", href: null },
-      { label: "hello@nullspace.studio", href: null },
+      { label: "+61 406 400 348", href: null },
+      { label: "duongtatung@gmail.com", href: null },
     ],
   ];
 
