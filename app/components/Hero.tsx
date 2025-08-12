@@ -35,11 +35,11 @@ export default function Hero() {
   // }, []);
   // Array of icon image paths
   const icons = [
-    "/icon_1.png",
-    "/icon_2.png",
-    "/icon_3.png",
-    "/icon_4.png",
-    "/icon_5.png",
+    "/React.png",
+    "/Tailwind CSS.png",
+    "/TypeScript.png",
+    "/Redux.png",
+    "/GSAP.png",
   ];
   // Refs for the elements you mentioned
   const animatedIconsRef = useRef<HTMLDivElement | null>(null);
@@ -110,7 +110,7 @@ export default function Hero() {
     const animatedIcons = animatedIconsRef.current!;
     const iconElements = iconElementsRef.current;
     const heroHeader = heroHeaderRef.current!;
-    const heroSection = heroSectionRef.current!;
+    // const heroSection = heroSectionRef.current!;
     const placeholders = placeholdersRef.current;
     ScrollTrigger.create({
       scroller: "#page-wrapper",
@@ -197,11 +197,11 @@ export default function Hero() {
             opacity: 0,
           });
           //changing background color
-          if (scaleProgress >= 0.5) {
-            heroSection.style.backgroundColor = "#e3e3db";
-          } else {
-            heroSection.style.backgroundColor = "#141414";
-          }
+          // if (scaleProgress >= 0.5) {
+          //   heroSection.style.backgroundColor = "#e3e3db";
+          // } else {
+          //   heroSection.style.backgroundColor = "#141414";
+          // }
           //clean up the duplicate icons
           if (window.duplicateIcons) {
             window.duplicateIcons.forEach((duplicate) => {
@@ -240,7 +240,7 @@ export default function Hero() {
             opacity: 0,
           });
           //icon container fade out and each icon is animated individually to fly into it placeholder in the headline
-          heroSection.style.backgroundColor = "#e3e3db";
+          // heroSection.style.backgroundColor = "#e3e3db";
 
           const targetCenterY = window.innerHeight / 2;
           const targetCenterX = window.innerWidth / 2;
@@ -325,7 +325,7 @@ export default function Hero() {
             opacity: 0,
           });
           //
-          heroSection.style.backgroundColor = "#e3e3db";
+          // heroSection.style.backgroundColor = "#e3e3db";
 
           gsap.set(animatedIcons, { opacity: 0 });
           //
@@ -370,74 +370,72 @@ export default function Hero() {
   }, []);
 
   return (
-    <LenisWrapper>
-      <main
-        className="h-screen overflow-y-scroll scroll-container overflow-x-hidden"
-        id="page-wrapper"
+    <main
+    // className="h-screen overflow-y-scroll scroll-container overflow-x-hidden"
+    // id="page-wrapper"
+    >
+      <section
+        // id="main-content"
+        ref={heroSectionRef}
+        className="hero flex-col transition-colors duration-300 ease-in-out relative w-screen h-[100svh] p-6 flex items-center justify-center bg-[#141414] text-[#e3e3db] overflow-hidden"
       >
-        <section
-          id="main-content"
-          ref={heroSectionRef}
-          className="hero flex-col transition-colors duration-300 ease-in-out relative w-screen h-[100svh] p-6 flex items-center justify-center bg-[#141414] text-[#e3e3db] overflow-hidden"
+        <div
+          ref={heroHeaderRef}
+          className="hero-header absolute top-[35%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] text-center flex flex-col gap-8 will-change-[transform,opacity]"
         >
-          <div
-            ref={heroHeaderRef}
-            className="hero-header absolute top-[35%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] text-center flex flex-col gap-8 will-change-[transform,opacity]"
-          >
-            <h1 className="font-extrabold text-[7vw] leading-none">
-              Tung Duong Ta
-            </h1>
-            <p className="text-2xl font-normal">Front-end software Engineer</p>
-          </div>
+          <h1 className="font-bold text-[7vw] leading-none">Tung Duong Ta</h1>
+          <p className="text-2xl font-normal">Front-end software Engineer</p>
+        </div>
 
-          <div
-            ref={animatedIconsRef}
-            className="animated-icons fixed bottom-[1rem] left-[1rem] right-[1rem] flex items-center gap-4 will-change-transform z-2"
-          >
-            {icons.map((src, index) => (
-              <div
-                key={index}
-                ref={setIconElementRef(index)}
-                className={`animated-icon icon-${
-                  index + 1
-                } flex-1 aspect-[1] will-change-transform`}
-              >
-                <img src={src} alt={`Icon ${index + 1}`} className="imga" />
-              </div>
-            ))}
-          </div>
+        <div
+          ref={animatedIconsRef}
+          className="animated-icons fixed bottom-[1rem] left-[1rem] right-[1rem] flex items-center gap-4 will-change-transform z-2"
+        >
+          {icons.map((src, index) => (
+            <div
+              key={index}
+              ref={setIconElementRef(index)}
+              className={`animated-icon icon-${
+                index + 1
+              } flex-1 aspect-[1] will-change-transform`}
+            >
+              <img src={src} alt={`Icon ${index + 1}`} className="imga" />
+            </div>
+          ))}
+        </div>
 
-          <h1 className="animated-text relative max-w-[1000px] text-center text-[#141414] text-[clamp(2rem,5vw,4rem)] font-extrabold leading-none">
-            <div ref={setPlaceholderRef(0)} className="placeholder-icon"></div>
-            <span ref={setTextSegmentRef(0)} className="text-segment">
-              Delve into coding
-            </span>
-            <div ref={setPlaceholderRef(1)} className="placeholder-icon"></div>
-            <span ref={setTextSegmentRef(1)} className="text-segment">
-              without clutter.
-            </span>
-            <span ref={setTextSegmentRef(2)} className="text-segment">
-              Unlock source code{" "}
-            </span>
-            <div ref={setPlaceholderRef(2)} className="placeholder-icon"></div>
-            <span ref={setTextSegmentRef(3)} className="text-segment">
-              for every tutorial
-            </span>
-            <div ref={setPlaceholderRef(3)} className="placeholder-icon"></div>
-            <span ref={setTextSegmentRef(4)} className="text-segment">
-              published on the Codegrid
-            </span>
-            <div ref={setPlaceholderRef(4)} className="placeholder-icon"></div>
-            <span ref={setTextSegmentRef(5)} className="text-segment">
-              YouTube channel.
-            </span>
-          </h1>
-        </section>
+        <h1 className="animated-text text-white relative max-w-[1000px] text-center  text-[clamp(2rem,5vw,4rem)] font-extrabold leading-none">
+          <span ref={setTextSegmentRef(0)} className="text-segment">
+            Fueling sleek web apps with
+          </span>
+          <div ref={setPlaceholderRef(0)} className="placeholder-icon"></div>
 
-        <section className="outro relative w-screen h-[100svh] p-6 flex items-center justify-center bg-[#141414] text-[#e3e3db] overflow-hidden">
+          <span ref={setTextSegmentRef(1)} className="text-segment">
+            styling vibes with
+          </span>
+
+          <span ref={setTextSegmentRef(2)} className="text-segment">
+            keeping state in check
+          </span>
+          <div ref={setPlaceholderRef(1)} className="placeholder-icon"></div>
+          <div ref={setPlaceholderRef(2)} className="placeholder-icon"></div>
+          <span ref={setTextSegmentRef(3)} className="text-segment">
+            for every tutorial
+          </span>
+          <div ref={setPlaceholderRef(3)} className="placeholder-icon"></div>
+          <span ref={setTextSegmentRef(4)} className="text-segment">
+            coding safe
+          </span>
+          <div ref={setPlaceholderRef(4)} className="placeholder-icon"></div>
+          <span ref={setTextSegmentRef(5)} className="text-segment">
+            and bringing magic through
+          </span>
+        </h1>
+      </section>
+
+      {/* <section className="outro relative w-screen h-[100svh] p-6 flex items-center justify-center bg-[#141414] text-[#e3e3db] overflow-hidden">
           <h1>Link in description</h1>
-        </section>
-      </main>
-    </LenisWrapper>
+        </section> */}
+    </main>
   );
 }

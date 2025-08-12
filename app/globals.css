@@ -31,29 +31,28 @@ body {
 html {
   scroll-behavior: smooth;
 }
-/* Scrollbar base for dark theme like Chrome’s */
 .scroll-container::-webkit-scrollbar {
-  width: 12px;
+  width: 20px; /* increased from 12px */
   background-color: #121212; /* dark background */
 }
 
 .scroll-container::-webkit-scrollbar-track {
-  background-color: #121212; /* track same as background */
+  background-color: #121212;
 }
 
 .scroll-container::-webkit-scrollbar-thumb {
-  background-color: #4e4e4e; /* dark gray thumb */
+  background-color: #4e4e4e;
   border-radius: 10px;
-  border: 3px solid #121212; /* space around thumb, matches bg */
+  border: 5px solid #121212; /* adjust border thickness for spacing */
 }
 
 .scroll-container::-webkit-scrollbar-thumb:hover {
-  background-color: #6e6e6e; /* lighter gray on hover */
+  background-color: #6e6e6e;
 }
 
 /* Firefox */
 .scroll-container {
-  scrollbar-width: thin;
+  scrollbar-width: auto; /* 'auto' or 'thick' for thicker scrollbar */
   scrollbar-color: #4e4e4e #121212;
 }
 .active .nav-indicator {
