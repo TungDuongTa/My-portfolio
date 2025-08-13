@@ -69,12 +69,12 @@ export default function Hero() {
 
   //Randomize text segments appearance order
   useGSAP(() => {
-    console.log("animatedIconsRef:", animatedIconsRef.current);
-    console.log("iconElementsRef:", iconElementsRef.current);
-    console.log("textSegmentsRef:", textSegmentsRef.current);
-    console.log("placeholdersRef:", placeholdersRef.current);
-    console.log("heroHeaderRef:", heroHeaderRef.current);
-    console.log("heroSectionRef:", heroSectionRef.current);
+    // console.log("animatedIconsRef:", animatedIconsRef.current);
+    // console.log("iconElementsRef:", iconElementsRef.current);
+    // console.log("textSegmentsRef:", textSegmentsRef.current);
+    // console.log("placeholdersRef:", placeholdersRef.current);
+    // console.log("heroHeaderRef:", heroHeaderRef.current);
+    // console.log("heroSectionRef:", heroSectionRef.current);
     let textAnimationOrder: {
       segment: HTMLSpanElement | null;
       originalIndex: number;

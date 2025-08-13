@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { SplitText } from "gsap/SplitText";
@@ -149,13 +149,14 @@ export default function Navbar() {
     });
   }
 
-  function closeMenu() {
+  const closeMenu = useCallback(() => {
     if (
       !menuOverlayRef.current ||
       !menuOverlayContainerRef.current ||
       !menuMediaWrapperRef.current ||
       !hamburgerIconRef.current ||
-      !menuToggleLabelRef.current
+      !menuToggleLabelRef.current ||
+      !containerRef.current
     ) {
       return;
     }
@@ -164,11 +165,11 @@ export default function Navbar() {
     hamburgerIconRef.current.classList.remove("active");
 
     const tl = gsap.timeline();
-
     tl.to(containerRef.current, {
       y: "0svh",
       duration: 1,
       ease: "hop",
+      onComplete: () => {},
     })
       .to(
         menuOverlayRef.current,
@@ -219,7 +220,7 @@ export default function Navbar() {
       isAnimatingRef.current = false;
       setIsMenuOpen(false);
     });
-  }
+  }, [containerRef]);
 
   function toggleMenu() {
     if (isAnimatingRef.current) return;
@@ -244,7 +245,7 @@ export default function Navbar() {
       closeMenu();
       setPendingRoute(null);
     }
-  }, [pathname, pendingRoute]);
+  }, [pathname, pendingRoute, closeMenu]);
   //
   //
   // Menu link groups
@@ -273,6 +274,10 @@ export default function Navbar() {
       { label: "duongtatung@gmail.com", href: null },
     ],
   ];
+
+  useEffect(() => {
+    console.log("containerRef:", containerRef.current);
+  });
 
   return (
     <main>

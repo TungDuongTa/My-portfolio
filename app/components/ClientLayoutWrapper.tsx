@@ -16,8 +16,12 @@ export default function ClientLayoutWrapper({
   }, [setContainerRef]);
 
   return (
-    <main>
-      <div ref={localRef}>{children}</div>
+    <main
+      id="page-wrapper"
+      className="relative overflow-y-scroll h-screen scroll-container overflow-x-hidden"
+      ref={localRef}
+    >
+      {children}
     </main>
   );
 }
