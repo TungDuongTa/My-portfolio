@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { SplitText } from "gsap/SplitText";
@@ -8,11 +8,15 @@ import { useContainerRef } from "../context/ContainerRefContext";
 import { ScrollTrigger } from "gsap/all";
 // import { useLenisContext } from "./LenisProvider";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 gsap.registerPlugin(CustomEase, SplitText, ScrollTrigger);
 CustomEase.create("hop", ".87,0,.13,1");
 
 export default function Navbar() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [pendingRoute, setPendingRoute] = useState<string | null>(null);
   // const { lenis } = useLenisContext();
   // Refs to DOM elements
   const { containerRef } = useContainerRef();
@@ -61,10 +65,8 @@ export default function Navbar() {
   }, []);
 
   // Menu toggle handler
-  function toggleMenu() {
-    if (isAnimatingRef.current) return;
+  function openMenu() {
     if (
-      /* !containerRef.current || */
       !menuOverlayRef.current ||
       !menuOverlayContainerRef.current ||
       !menuMediaWrapperRef.current ||
@@ -76,145 +78,173 @@ export default function Navbar() {
 
     isAnimatingRef.current = true;
 
-    if (!isMenuOpen) {
-      // Opening menu
-      // Replace 'lenis' with your Lenis instance, or comment out if unused
-      // lenis.current?.lenis?.stop();
+    const tl = gsap.timeline();
 
-      const tl = gsap.timeline();
-
-      tl.to(
-        menuToggleLabelRef.current,
+    tl.to(
+      menuToggleLabelRef.current,
+      {
+        y: "-110%",
+        duration: 1,
+        ease: "hop",
+      },
+      "<"
+    )
+      .to(
+        containerRef.current,
         {
-          y: "-110%",
+          y: "100svh",
           duration: 1,
           ease: "hop",
         },
         "<"
       )
-        .to(
-          containerRef.current,
-          {
-            y: "100svh",
-            duration: 1,
-            ease: "hop",
-          },
-          "<"
-        )
-        .to(
-          menuOverlayRef.current,
-          {
-            clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-            duration: 1,
-            ease: "hop",
-          },
-          "<"
-        )
-        .to(
-          menuOverlayContainerRef.current,
-          {
-            yPercent: 0,
-            duration: 1,
-            ease: "hop",
-          },
-          "<"
-        )
-        .to(
-          menuMediaWrapperRef.current,
-          {
-            opacity: 1,
-            duration: 0.75,
-            ease: "power2.out",
-            delay: 0.5,
-          },
-          "<"
-        );
+      .to(
+        menuOverlayRef.current,
+        {
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          duration: 1,
+          ease: "hop",
+        },
+        "<"
+      )
+      .to(
+        menuOverlayContainerRef.current,
+        {
+          yPercent: 0,
+          duration: 1,
+          ease: "hop",
+        },
+        "<"
+      )
+      .to(
+        menuMediaWrapperRef.current,
+        {
+          opacity: 1,
+          duration: 0.75,
+          ease: "power2.out",
+          delay: 0.5,
+        },
+        "<"
+      );
 
+    splitTextByContainer.current.forEach((containerSplits) => {
+      const copyLines = containerSplits.flatMap((split) => split.lines);
+      tl.to(
+        copyLines,
+        {
+          y: "0%",
+          duration: 2,
+          ease: "hop",
+          stagger: -0.075,
+        },
+        -0.15
+      );
+    });
+
+    hamburgerIconRef.current.classList.add("active");
+
+    tl.call(() => {
+      isAnimatingRef.current = false;
+      setIsMenuOpen(true);
+    });
+  }
+
+  function closeMenu() {
+    if (
+      !menuOverlayRef.current ||
+      !menuOverlayContainerRef.current ||
+      !menuMediaWrapperRef.current ||
+      !hamburgerIconRef.current ||
+      !menuToggleLabelRef.current
+    ) {
+      return;
+    }
+
+    isAnimatingRef.current = true;
+    hamburgerIconRef.current.classList.remove("active");
+
+    const tl = gsap.timeline();
+
+    tl.to(containerRef.current, {
+      y: "0svh",
+      duration: 1,
+      ease: "hop",
+    })
+      .to(
+        menuOverlayRef.current,
+        {
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+          duration: 1,
+          ease: "hop",
+        },
+        "<"
+      )
+      .to(
+        menuOverlayContainerRef.current,
+        {
+          yPercent: -50,
+          duration: 1,
+          ease: "hop",
+        },
+        "<"
+      )
+      .to(
+        menuToggleLabelRef.current,
+        {
+          y: "0%",
+          duration: 1,
+          ease: "hop",
+        },
+        "<"
+      )
+      .to(
+        copyContainersRef.current,
+        {
+          opacity: 0.25,
+          duration: 1,
+          ease: "hop",
+        },
+        "<"
+      );
+
+    tl.call(() => {
       splitTextByContainer.current.forEach((containerSplits) => {
         const copyLines = containerSplits.flatMap((split) => split.lines);
-        tl.to(
-          copyLines,
-          {
-            y: "0%",
-            duration: 2,
-            ease: "hop",
-            stagger: -0.075,
-          },
-          -0.15
-        );
+        gsap.set(copyLines, { y: "-110%" });
       });
 
-      hamburgerIconRef.current.classList.add("active");
+      gsap.set(copyContainersRef.current, { opacity: 1 });
+      gsap.set(menuMediaWrapperRef.current, { opacity: 0 });
 
-      tl.call(() => {
-        isAnimatingRef.current = false;
-        setIsMenuOpen(true);
-      });
+      isAnimatingRef.current = false;
+      setIsMenuOpen(false);
+    });
+  }
+
+  function toggleMenu() {
+    if (isAnimatingRef.current) return;
+    if (isMenuOpen) {
+      closeMenu();
     } else {
-      // Closing menu
-      // lenis.current?.lenis?.start();
-      hamburgerIconRef.current.classList.remove("active");
-
-      const tl = gsap.timeline();
-
-      tl.to(containerRef.current, {
-        y: "0svh",
-        duration: 1,
-        ease: "hop",
-      })
-        .to(
-          menuOverlayRef.current,
-          {
-            clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-            duration: 1,
-            ease: "hop",
-          },
-          "<"
-        )
-        .to(
-          menuOverlayContainerRef.current,
-          {
-            yPercent: -50,
-            duration: 1,
-            ease: "hop",
-          },
-          "<"
-        )
-        .to(
-          menuToggleLabelRef.current,
-          {
-            y: "0%",
-            duration: 1,
-            ease: "hop",
-          },
-          "<"
-        )
-        .to(
-          copyContainersRef.current,
-          {
-            opacity: 0.25,
-            duration: 1,
-            ease: "hop",
-          },
-          "<"
-        );
-
-      tl.call(() => {
-        splitTextByContainer.current.forEach((containerSplits) => {
-          const copyLines = containerSplits.flatMap((split) => split.lines);
-          gsap.set(copyLines, { y: "-110%" });
-        });
-
-        gsap.set(copyContainersRef.current, { opacity: 1 });
-        gsap.set(menuMediaWrapperRef.current, { opacity: 0 });
-
-        isAnimatingRef.current = false;
-        setIsMenuOpen(false);
-
-        // lenis.current?.lenis?.start();
-      });
+      openMenu();
     }
   }
+  // When user clicks a link:
+  function handleLinkClick(href: string | null) {
+    if (!href) return;
+    if (isAnimatingRef.current) return;
+
+    setPendingRoute(href);
+    router.push(href);
+  }
+
+  // Watch for route change to trigger close animation
+  useEffect(() => {
+    if (pendingRoute && pathname === pendingRoute) {
+      closeMenu();
+      setPendingRoute(null);
+    }
+  }, [pathname, pendingRoute]);
   //
   //
   // Menu link groups
@@ -227,9 +257,15 @@ export default function Navbar() {
       { label: "Connect", href: "/" },
     ],
     [
-      { label: "LinkedIn", href: "#" },
-      { label: "Facebook", href: "#" },
-      { label: "Github", href: "#" },
+      {
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/in/tung-duong-ta-52b9b3287/",
+      },
+      {
+        label: "Facebook",
+        href: "https://www.facebook.com/tung.duong.809378/",
+      },
+      { label: "Github", href: "https://github.com/TungDuongTa" },
     ],
     [{ label: "Wollongong, Australia", href: null }],
     [
@@ -305,7 +341,10 @@ export default function Navbar() {
                         >
                           <Link
                             href={href}
-                            onClick={toggleMenu}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleLinkClick(href);
+                            }}
                             style={{
                               pointerEvents: isMenuOpen ? "auto" : "none",
                             }}
@@ -337,7 +376,10 @@ export default function Navbar() {
                         <Link
                           href={href}
                           key={index}
-                          onClick={toggleMenu}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleLinkClick(href);
+                          }}
                           style={{
                             pointerEvents: isMenuOpen ? "auto" : "none",
                           }}
