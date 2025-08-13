@@ -4,6 +4,11 @@ import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+declare global {
+  interface Window {
+    __lenis?: Lenis;
+  }
+}
 export default function LenisWrapper({
   children,
 }: {
@@ -17,6 +22,8 @@ export default function LenisWrapper({
         wrapper: document.getElementById("page-wrapper") ?? undefined,
         content: document.getElementById("main-content") ?? undefined,
       });
+      // Make Lenis globally accessible
+      window.__lenis = lenisRef.current!;
 
       const update = (time: number) => {
         lenisRef.current?.raf(time * 1000);

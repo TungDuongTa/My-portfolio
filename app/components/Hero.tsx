@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 // import Lenis from "lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import LenisWrapper from "./LenisWrapper";
+// import LenisWrapper from "./LenisWrapper";
 declare global {
   interface Window {
     duplicateIcons?: HTMLElement[] | null;

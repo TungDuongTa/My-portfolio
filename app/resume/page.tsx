@@ -10,17 +10,29 @@ import LenisWrapper from "../components/LenisWrapper";
 
 export default function Resume() {
   const [activeSection, setActiveSection] = useState<string>("about");
+  const handleSmoothScroll = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    targetId: string
+  ) => {
+    e.preventDefault();
+    const lenisInstance = window.__lenis;
+    if (lenisInstance) {
+      lenisInstance.scrollTo(`#${targetId}`);
+    }
+  };
   useEffect(() => {
-    const handleScroll = (): void => {
+    const lenisInstance = window.__lenis;
+    if (!lenisInstance) return;
+
+    const handleLenisScroll = ({ scroll }: { scroll: number }) => {
       const sections = ["about", "experience", "projects"];
-      const scrollPosition = window.scrollY;
+      const scrollPosition = scroll; // Lenis gives you the current scrollY position
 
       sections.forEach((section) => {
         const element = document.getElementById(section);
         if (element) {
-          const offsetTop = element.offsetTop - 200; // Adjust as needed
+          const offsetTop = element.offsetTop - 200;
           const offsetBottom = offsetTop + element.offsetHeight;
-
           if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
             setActiveSection(section);
           }
@@ -28,9 +40,12 @@ export default function Resume() {
       });
     };
 
-    window.addEventListener("scroll", handleScroll);
+    // Listen to Lenis scroll instead of window scroll
+    lenisInstance.on("scroll", handleLenisScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      lenisInstance.off("scroll", handleLenisScroll);
+    };
   }, []);
 
   return (
@@ -80,6 +95,7 @@ export default function Resume() {
                             activeSection === "about" ? "active " : ""
                           }`}
                           href="#about"
+                          onClick={(e) => handleSmoothScroll(e, "about")}
                         >
                           <span className="nav-indicator mr-4 h-px w-8 bg-slate-600 transition-all group-hover:w-16 group-hover:bg-slate-200 group-focus-visible:w-16 group-focus-visible:bg-slate-200 motion-reduce:transition-none"></span>
                           <span
@@ -99,6 +115,7 @@ export default function Resume() {
                             activeSection === "experience" ? "active " : ""
                           }`}
                           href="#experience"
+                          onClick={(e) => handleSmoothScroll(e, "experience")}
                         >
                           <span className="nav-indicator mr-4 h-px w-8 bg-slate-600 transition-all group-hover:w-16 group-hover:bg-slate-200 group-focus-visible:w-16 group-focus-visible:bg-slate-200 motion-reduce:transition-none"></span>
                           <span
@@ -118,6 +135,7 @@ export default function Resume() {
                             activeSection === "projects" ? "active " : ""
                           }`}
                           href="#projects"
+                          onClick={(e) => handleSmoothScroll(e, "projects")}
                         >
                           <span className="nav-indicator mr-4 h-px w-8 bg-slate-600 transition-all group-hover:w-16 group-hover:bg-slate-200 group-focus-visible:w-16 group-focus-visible:bg-slate-200 motion-reduce:transition-none"></span>
                           <span
